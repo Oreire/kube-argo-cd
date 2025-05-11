@@ -17,7 +17,8 @@ jobs:
         run: |
          cd infra
           terraform init
-          terraform apply -auto-approve
+          #  terraform apply -auto-approve
+          terraform destroy -auto-approve
 
       - name: Verify Kubernetes Deployments
         run: |

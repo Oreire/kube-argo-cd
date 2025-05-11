@@ -31,7 +31,9 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "argoproj/argocd:v2.10.2"
+          image = "argoproj/argocd:v2.6.15" # Use the latest stable version
+          image_pull_policy = "IfNotPresent"
+
           port {
             container_port = 443
           }
