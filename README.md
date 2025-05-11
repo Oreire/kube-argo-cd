@@ -5,3 +5,4 @@
 
 Tesing Self Hosted Runner
 Git upgrade
+powershell installed
