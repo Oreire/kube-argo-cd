@@ -1,7 +1,5 @@
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
+# File: infra/argo.tf
+# Description: This Terraform configuration deploys ArgoCD on a Kubernetes cluster.
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"
@@ -51,11 +49,11 @@ resource "kubernetes_service" "argocd_server" {
       app = "argocd-server"
     }
 
-    type = "NodePort"  # Updated for local access
+    type = "NodePort"
 
     port {
       port        = 443
-      target_port = kubernetes_deployment.argocd_server.spec[0].template[0].spec[0].container[0].port[0].container_port
+      target_port = 443  # Simplified direct reference
       node_port   = 30443  # Accessible via http://localhost:30443
     }
   }
@@ -69,15 +67,15 @@ resource "kubernetes_ingress" "argocd_server" {
 
   spec {
     rule {
-      host = "argocd.local"  # Updated for local access
+      host = "argocd.local"
 
       http {
         path {
-          path      = "/"  
+          path      = "/"
 
           backend {
             service_name = kubernetes_service.argocd_server.metadata[0].name
-            service_port = kubernetes_service.argocd_server.spec[0].port[0].port
+            service_port = 443
           }
         }
       }
