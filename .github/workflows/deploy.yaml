@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted  # Runs on your local machine
+    runs-on: [self-hosted, Windows, X64]  # Runs on your local machine
 
     steps:
       - name: Checkout repository
