@@ -15,21 +15,9 @@ jobs:
 
       - name: Apply Terraform Configuration
         run: |
-          cd infra
+         cd infra
           terraform init
-          terraform apply -auto-approve --refresh-only
-
-      - name: Identify Failed Resources
-        run: |
-          terraform plan -detailed-exitcode
-        continue-on-error: true
-
-      - name: Recreate Failed Resources
-        if: failure()
-        run: |
-          terraform taint kubernetes_deployment.argocd_server || true
-          terraform taint kubernetes_service.myapp_service || true
-          terraform apply -auto-approve
+          terraform destroy -auto-approve
 
       - name: Verify Kubernetes Deployments
         run: |
@@ -45,11 +33,6 @@ jobs:
       - name: Port Forward MyApp Service
         run: |
           kubectl port-forward svc/myapp-service 8081:80 -n default &
-      
       - name: Wait for Port Forwarding
         run: |
           sleep 10  # Wait for port forwarding to establish
-      - name: Access ArgoCD UI
-        run: |
-          echo "Access ArgoCD UI at http://localhost:8080"
-          echo "Access MyApp at http://localhost:8081"
