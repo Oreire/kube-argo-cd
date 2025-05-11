@@ -15,6 +15,7 @@ jobs:
 
       - name: Apply Terraform Configuration
         run: |
+         cd infra
           terraform init
           terraform apply -auto-approve
 
