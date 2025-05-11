@@ -25,11 +25,6 @@ output "argocd_ingress_host" {
 }
 
 # Output variables for the myapp deployment
-output "myapp_namespace" {
-  description = "The namespace where myapp is deployed"
-  value       = kubernetes_namespace.default_ns.metadata[0].name
-}
-
 output "myapp_deployment_name" {
   description = "The name of the myapp deployment"
   value       = kubernetes_deployment.myapp.metadata[0].name

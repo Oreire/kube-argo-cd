@@ -28,7 +28,8 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "argoproj/argocd:v2.9.0"
+          image = "argoproj/argocd:v2.9.3"
+
           port {
             container_port = 443
           }
@@ -64,15 +65,13 @@ resource "kubernetes_ingress" "argocd_server" {
     name      = "argocd-server"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
-
   spec {
     rule {
       host = "argocd.local"
-
       http {
         path {
-          path = "/"
-
+          path      = "/"
+          # path_type removed as it is not supported in the current provider version
           backend {
             service_name = kubernetes_service.argocd_server.metadata[0].name
             service_port = 443

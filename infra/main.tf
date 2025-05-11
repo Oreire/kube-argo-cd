@@ -2,16 +2,10 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-resource "kubernetes_namespace" "default_ns" {
-  metadata {
-    name = "default"
-  }
-}
-
 resource "kubernetes_deployment" "myapp" {
   metadata {
     name      = "myapp"
-    namespace = kubernetes_namespace.default_ns.metadata[0].name
+    namespace = "default"
   }
   spec {
     replicas = 2
@@ -100,7 +94,7 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
         targetRevision = "main"
       }
       destination = {
-        namespace = kubernetes_namespace.default_ns.metadata[0].name
+        namespace = "default" 
         server    = "https://kubernetes.default.svc"
       }
       syncPolicy = {
