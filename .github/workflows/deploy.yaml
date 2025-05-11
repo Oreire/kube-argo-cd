@@ -40,3 +40,7 @@ jobs:
         run: |
           echo "Access ArgoCD UI at http://localhost:8080"
           echo "Access MyApp at http://localhost:8081"
+      - name: Cleanup
+        run: |
+          # Optionally, you can add cleanup steps here
+          echo "Cleanup steps can be added here if needed."
