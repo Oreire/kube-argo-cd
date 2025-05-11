@@ -19,11 +19,6 @@ output "argocd_service_node_port" {
   value       = kubernetes_service.argocd_server.spec[0].port[0].node_port
 }
 
-output "argocd_ingress_host" {
-  description = "The hostname for ArgoCD ingress"
-  value       = kubernetes_ingress.argocd_server.spec[0].rule[0].host
-}
-
 # Output variables for the myapp deployment
 output "myapp_deployment_name" {
   description = "The name of the myapp deployment"
@@ -38,11 +33,6 @@ output "myapp_service_name" {
 output "myapp_service_node_port" {
   description = "NodePort to access myapp"
   value       = kubernetes_service.myapp_service.spec[0].port[0].node_port
-}
-
-output "myapp_ingress_host" {
-  description = "The hostname for myapp ingress"
-  value       = kubernetes_ingress.myapp_ingress.spec[0].rule[0].host
 }
 
 # ArgoCD Application tracking outputs

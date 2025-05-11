@@ -1,5 +1,6 @@
 # File: infra/argo.tf
 # Description: This Terraform configuration deploys ArgoCD on a Kubernetes cluster.
+
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"
@@ -7,6 +8,8 @@ resource "kubernetes_namespace" "argocd" {
 }
 
 resource "kubernetes_deployment" "argocd_server" {
+  depends_on = [kubernetes_namespace.argocd]
+
   metadata {
     name      = "argocd-server"
     namespace = kubernetes_namespace.argocd.metadata[0].name
@@ -29,7 +32,6 @@ resource "kubernetes_deployment" "argocd_server" {
         container {
           name  = "argocd-server"
           image = "argoproj/argocd:v2.9.3"
-
           port {
             container_port = 443
           }
@@ -40,6 +42,8 @@ resource "kubernetes_deployment" "argocd_server" {
 }
 
 resource "kubernetes_service" "argocd_server" {
+  depends_on = [kubernetes_deployment.argocd_server]
+
   metadata {
     name      = "argocd-server"
     namespace = kubernetes_namespace.argocd.metadata[0].name
@@ -54,28 +58,37 @@ resource "kubernetes_service" "argocd_server" {
 
     port {
       port        = 443
-      target_port = 443   # Simplified direct reference
-      node_port   = 30443 # Accessible via http://localhost:30443
+      target_port = 443
+      node_port   = 30443  # Accessible via http://localhost:30443
     }
   }
 }
 
-resource "kubernetes_ingress" "argocd_server" {
-  metadata {
-    name      = "argocd-server"
-    namespace = kubernetes_namespace.argocd.metadata[0].name
-  }
-  spec {
-    rule {
-      host = "argocd.local"
-      http {
-        path {
-          path = "/"
-          # path_type removed as it is not supported in the current provider version
-          backend {
-            service_name = kubernetes_service.argocd_server.metadata[0].name
-            service_port = 443
-          }
+resource "kubernetes_manifest" "argocd_application_myapp" {
+  depends_on = [kubernetes_service.argocd_server]
+
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+    metadata = {
+      name      = "myapp"
+      namespace = "argocd"
+    }
+    spec = {
+      project = "default"
+      source = {
+        repoURL        = "https://github.com/Oreire/kube-argo-cd.git"
+        path           = "infra"
+        targetRevision = "main"
+      }
+      destination = {
+        namespace = "default" 
+        server    = "https://kubernetes.default.svc"
+      }
+      syncPolicy = {
+        automated = {
+          prune    = true
+          selfHeal = true
         }
       }
     }
