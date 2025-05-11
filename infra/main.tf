@@ -1,3 +1,5 @@
+# File: infra/argo.tf
+# Description: This Terraform configuration deploys ArgoCD on a Kubernetes cluster.
 provider "kubernetes" {
   config_path = "~/.kube/config"
 }
@@ -36,7 +38,7 @@ resource "kubernetes_deployment" "myapp" {
 resource "kubernetes_service" "myapp_service" {
   metadata {
     name      = "myapp-service"
-    namespace = kubernetes_namespace.default_ns.metadata[0].name
+    namespace = "default"
   }
 
   spec {
@@ -57,7 +59,7 @@ resource "kubernetes_service" "myapp_service" {
 resource "kubernetes_ingress" "myapp_ingress" {
   metadata {
     name      = "myapp-ingress"
-    namespace = kubernetes_namespace.default_ns.metadata[0].name
+    namespace = "default"
   }
 
   spec {
@@ -66,8 +68,8 @@ resource "kubernetes_ingress" "myapp_ingress" {
 
       http {
         path {
-          path = "/"
-          # path_type attribute removed as it is not supported
+          path      = "/"
+
           backend {
             service_name = kubernetes_service.myapp_service.metadata[0].name
             service_port = kubernetes_service.myapp_service.spec[0].port[0].port
@@ -84,7 +86,7 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     kind       = "Application"
     metadata = {
       name      = "myapp"
-      namespace = kubernetes_namespace.argocd.metadata[0].name
+      namespace = "argocd"
     }
     spec = {
       project = "default"
@@ -106,3 +108,4 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     }
   }
 }
+
