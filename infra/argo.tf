@@ -31,8 +31,37 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "- argoproj/argocd:v3.0.0" # Use the latest stable version
+          image = "argoproj/argocd:v3.0.0"  # Corrected image reference
           image_pull_policy = "IfNotPresent"
+
+          resources {
+            requests = {
+              cpu    = "500m"
+              memory = "512Mi"
+            }
+            limits = {
+              cpu    = "1"
+              memory = "1Gi"
+            }
+          }
+
+          liveness_probe {
+            http_get {
+              path = "/healthz"
+              port = 443
+            }
+            initial_delay_seconds = 30
+            period_seconds = 10
+          }
+
+          readiness_probe {
+            http_get {
+              path = "/healthz"
+              port = 443
+            }
+            initial_delay_seconds = 10
+            period_seconds = 5
+          }
 
           port {
             container_port = 443
@@ -53,7 +82,7 @@ resource "kubernetes_service" "argocd_service" {
 
   spec {
     selector = {
-      app = "argocd-service"
+      app = "argocd-server"  # Fixed label selector to match the deployment
     }
 
     type = "NodePort"
@@ -84,7 +113,7 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
         targetRevision = "main"
       }
       destination = {
-        namespace = "default" 
+        namespace = "default"
         server    = "https://kubernetes.default.svc"
       }
       syncPolicy = {
