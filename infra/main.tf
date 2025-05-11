@@ -8,12 +8,6 @@ resource "kubernetes_namespace" "default_ns" {
   }
 }
 
-resource "kubernetes_namespace" "argocd" {
-  metadata {
-    name = "argocd"
-  }
-}
-
 resource "kubernetes_deployment" "myapp" {
   metadata {
     name      = "myapp"
