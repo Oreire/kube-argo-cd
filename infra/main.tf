@@ -55,7 +55,7 @@ resource "kubernetes_service" "myapp_service" {
     port {
       port        = 80
       target_port = kubernetes_deployment.myapp.spec[0].template[0].spec[0].container[0].port[0].container_port
-      node_port   = 30080  # Accessible via http://localhost:30080
+      node_port   = 30080 # Accessible via http://localhost:30080
     }
   }
 }
@@ -72,7 +72,7 @@ resource "kubernetes_ingress" "myapp_ingress" {
 
       http {
         path {
-          path      = "/"
+          path = "/"
           # path_type attribute removed as it is not supported
           backend {
             service_name = kubernetes_service.myapp_service.metadata[0].name
@@ -95,8 +95,8 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     spec = {
       project = "default"
       source = {
-        repoURL = "https://github.com/Oreire/kube-argo-cd.git"
-        path    = "infra"
+        repoURL        = "https://github.com/Oreire/kube-argo-cd.git"
+        path           = "infra"
         targetRevision = "main"
       }
       destination = {

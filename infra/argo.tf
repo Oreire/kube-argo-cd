@@ -53,8 +53,8 @@ resource "kubernetes_service" "argocd_server" {
 
     port {
       port        = 443
-      target_port = 443  # Simplified direct reference
-      node_port   = 30443  # Accessible via http://localhost:30443
+      target_port = 443   # Simplified direct reference
+      node_port   = 30443 # Accessible via http://localhost:30443
     }
   }
 }
@@ -71,7 +71,7 @@ resource "kubernetes_ingress" "argocd_server" {
 
       http {
         path {
-          path      = "/"
+          path = "/"
 
           backend {
             service_name = kubernetes_service.argocd_server.metadata[0].name
