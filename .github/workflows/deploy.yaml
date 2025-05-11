@@ -17,6 +17,9 @@ jobs:
         run: |
          cd infra
           terraform init
+          terraform validate
+          terraform fmt -check
+          terraform plan -out=ArgoCD-Plan
           terraform apply -auto-approve
           #terraform destroy -auto-approve
 
