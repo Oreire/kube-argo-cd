@@ -32,3 +32,6 @@ jobs:
       - name: Port Forward MyApp Service
         run: |
           kubectl port-forward svc/myapp-service 8081:80 -n default &
+      - name: Wait for Port Forwarding
+        run: |
+          sleep 10  # Wait for port forwarding to establish
