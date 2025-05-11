@@ -36,3 +36,7 @@ jobs:
       - name: Wait for Port Forwarding
         run: |
           sleep 10  # Wait for port forwarding to establish
+      - name: Access ArgoCD UI
+        run: |
+          echo "Access ArgoCD UI at http://localhost:8080"
+          echo "Access MyApp at http://localhost:8081"
