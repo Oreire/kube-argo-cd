@@ -41,17 +41,17 @@ resource "kubernetes_deployment" "argocd_server" {
   }
 }
 
-resource "kubernetes_service" "argocd_server" {
+resource "kubernetes_service" "argocd_service" {
   depends_on = [kubernetes_deployment.argocd_server]
 
   metadata {
-    name      = "argocd-server"
+    name      = "argocd-service"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
 
   spec {
     selector = {
-      app = "argocd-server"
+      app = "argocd-service"
     }
 
     type = "NodePort"
@@ -65,7 +65,7 @@ resource "kubernetes_service" "argocd_server" {
 }
 
 resource "kubernetes_manifest" "argocd_application_myapp" {
-  depends_on = [kubernetes_service.argocd_server]
+  depends_on = [kubernetes_service.argocd_service]
 
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"

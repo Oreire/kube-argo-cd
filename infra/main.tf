@@ -54,31 +54,3 @@ resource "kubernetes_service" "myapp_service" {
   }
 }
 
-resource "kubernetes_manifest" "argocd_application_myapp" {
-  manifest = {
-    apiVersion = "argoproj.io/v1alpha1"
-    kind       = "Application"
-    metadata = {
-      name      = "myapp"
-      namespace = "argocd"
-    }
-    spec = {
-      project = "default"
-      source = {
-        repoURL        = "https://github.com/Oreire/kube-argo-cd.git"
-        path           = "infra"
-        targetRevision = "main"
-      }
-      destination = {
-        namespace = "default"
-        server    = "https://kubernetes.default.svc"
-      }
-      syncPolicy = {
-        automated = {
-          prune    = true
-          selfHeal = true
-        }
-      }
-    }
-  }
-}

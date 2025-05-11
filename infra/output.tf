@@ -11,12 +11,12 @@ output "argocd_deployment_name" {
 
 output "argocd_service_name" {
   description = "The name of the ArgoCD service"
-  value       = kubernetes_service.argocd_server.metadata[0].name
+  value       = kubernetes_service.argocd_service.metadata[0].name
 }
 
 output "argocd_service_node_port" {
   description = "NodePort to access ArgoCD"
-  value       = kubernetes_service.argocd_server.spec[0].port[0].node_port
+  value       = kubernetes_service.argocd_service.spec[0].port[0].node_port
 }
 
 # Output variables for the myapp deployment
