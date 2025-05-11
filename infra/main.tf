@@ -101,7 +101,7 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     spec = {
       project = "default"
       source = {
-        repoURL = "https://github.com/your-repo/myapp.git"
+        repoURL = "https://github.com/Oreire/kube-argo-cd.git"
         path    = "infra"
         targetRevision = "main"
       }
