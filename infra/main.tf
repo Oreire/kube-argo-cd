@@ -68,7 +68,7 @@ resource "kubernetes_ingress" "myapp_ingress" {
 
       http {
         path {
-          path      = "/"
+          path = "/"
 
           backend {
             service_name = kubernetes_service.myapp_service.metadata[0].name
@@ -96,7 +96,7 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
         targetRevision = "main"
       }
       destination = {
-        namespace = "default" 
+        namespace = "default"
         server    = "https://kubernetes.default.svc"
       }
       syncPolicy = {

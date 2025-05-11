@@ -70,7 +70,7 @@ resource "kubernetes_ingress" "argocd_server" {
       host = "argocd.local"
       http {
         path {
-          path      = "/"
+          path = "/"
           # path_type removed as it is not supported in the current provider version
           backend {
             service_name = kubernetes_service.argocd_server.metadata[0].name
