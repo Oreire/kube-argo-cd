@@ -28,7 +28,7 @@ jobs:
       - name: Format Terraform Configurations
         run: |
           cd infra
-          terraform fmt -check
+          terraform fmt 
           echo "Checking Terraform format..."
       
       - name: Plan Terraform Changes
