@@ -49,7 +49,7 @@ resource "kubernetes_service" "myapp_service" {
     port {
       port        = 80
       target_port = 80
-      node_port   = 31444 # Accessible via http://localhost:31444
+      node_port   = 31555 # Accessible via http://localhost:31444
     }
   }
 }
