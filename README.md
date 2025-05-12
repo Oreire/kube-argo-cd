@@ -10,3 +10,6 @@ Resources manually deleted
 
 
 
+provisioner "local-exec" {
+  command = "powershell -Command 'kubectl port-forward svc/myapp-service 8081:80 -n default &'"
+}
