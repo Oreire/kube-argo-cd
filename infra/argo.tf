@@ -31,8 +31,8 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "rapidfort/argocd:latest"  # Corrected image reference
-          
+          image = "rapidfort/argocd:latest" # Corrected image reference
+
           resources {
             requests = {
               cpu    = "500m"
@@ -50,7 +50,7 @@ resource "kubernetes_deployment" "argocd_server" {
               port = 443
             }
             initial_delay_seconds = 30
-            period_seconds = 10
+            period_seconds        = 10
           }
 
           readiness_probe {
@@ -59,7 +59,7 @@ resource "kubernetes_deployment" "argocd_server" {
               port = 443
             }
             initial_delay_seconds = 10
-            period_seconds = 5
+            period_seconds        = 5
           }
 
           port {
@@ -81,7 +81,7 @@ resource "kubernetes_service" "argocd_service" {
 
   spec {
     selector = {
-      app = "argocd-server"  # Fixed label selector to match the deployment
+      app = "argocd-server" # Fixed label selector to match the deployment
     }
 
     type = "NodePort"
@@ -89,13 +89,13 @@ resource "kubernetes_service" "argocd_service" {
     port {
       port        = 443
       target_port = 443
-      node_port   = 30443  # Accessible via http://localhost:30443
+      node_port   = 30443 # Accessible via http://localhost:30443
     }
   }
 }
 # Automate Port Forwarding after Service Creation
 resource "null_resource" "port_forward_argocd" {
-  depends_on = [kubernetes_service.argocd_service]  # Ensure service exists first
+  depends_on = [kubernetes_service.argocd_service] # Ensure service exists first
 
   provisioner "local-exec" {
     command = "kubectl port-forward svc/argocd-service 8000:443 -n argocd &"
