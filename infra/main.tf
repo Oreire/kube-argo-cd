@@ -54,3 +54,17 @@ resource "kubernetes_service" "myapp_service" {
   }
 }
 
+# Automate Port Forwarding after Service Creation
+resource "null_resource" "port_forward_myapp" {
+  depends_on = [kubernetes_service.myapp_service]  # Ensures service exists first
+
+  provisioner "local-exec" {
+    command = "kubectl port-forward svc/myapp-service 8081:80 -n default &"
+  }
+
+  triggers = {
+    always_run = timestamp()
+  }
+}
+  
+

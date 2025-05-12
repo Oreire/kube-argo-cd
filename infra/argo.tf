@@ -93,6 +93,18 @@ resource "kubernetes_service" "argocd_service" {
     }
   }
 }
+# Automate Port Forwarding after Service Creation
+resource "null_resource" "port_forward_argocd" {
+  depends_on = [kubernetes_service.argocd_service]  # Ensure service exists first
+
+  provisioner "local-exec" {
+    command = "kubectl port-forward svc/argocd-service 8000:443 -n argocd &"
+  }
+
+  triggers = {
+    always_run = timestamp()
+  }
+}
 
 resource "kubernetes_manifest" "argocd_application_myapp" {
   depends_on = [kubernetes_service.argocd_service]

@@ -7,3 +7,6 @@ Tesing Self Hosted Runner
 Git upgrade
 powershell installed
 Resources manually deleted
+
+
+
