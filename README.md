@@ -8,6 +8,9 @@ Git upgrade
 powershell installed
 Resources manually deleted
 
+docker inspect --format='{{index .RepoDigests 0}}' argoproj/argocd:latest
+(to get image with digest)
+
 
 
 provisioner "local-exec" {
