@@ -31,7 +31,7 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "argoproj/argocd:latest" # Corrected image reference
+          image = "docker.io/argoproj/argocd:latest" # Corrected image reference
 
           resources {
             requests = {
