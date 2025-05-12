@@ -13,6 +13,3 @@ docker inspect --format='{{index .RepoDigests 0}}' argoproj/argocd:latest
 
 
 
-provisioner "local-exec" {
-  command = "powershell -Command 'kubectl port-forward svc/myapp-service 8081:80 -n default &'"
-}

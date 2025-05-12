@@ -1,22 +1,20 @@
-# Step 1: Use a minimal base image with fixed digest
-FROM argoproj/argocd
+# Use a stable Ubuntu version as base
+FROM ubuntu:22.04
 
-# Step 2: Set environment variables
-ENV ARGOCD_VERSION=v2.10.2
+# Switch to root user for package installations
+USER root
 
-# Step 3: Install dependencies and optimize the layer size
-RUN apt-get update && \
+# Update package sources to ensure compatibility
+RUN apt-get clean && apt-get update && \
     apt-get install -y --no-install-recommends curl git ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# Step 4: Download and verify ArgoCD binary
-RUN curl -sSL -o /usr/local/bin/argocd \
-    https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64 && \
-    chmod +x /usr/local/bin/argocd
+# Set up ArgoCD (adjust based on your needs)
+COPY --from=argoproj/argocd:latest /usr/local/bin/argocd /usr/local/bin/argocd
 
-# Step 5: Define entrypoint and command
-ENTRYPOINT ["/usr/local/bin/argocd"]
-CMD ["version"]
+# Switch back to non-root user for security (if required)
+USER argocd
 
-# Step 6: Expose ports if needed
-EXPOSE 8081
+# Define entrypoint or startup command
+CMD ["/usr/local/bin/argocd", "version"]
+
