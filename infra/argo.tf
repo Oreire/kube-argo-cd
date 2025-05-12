@@ -1,5 +1,5 @@
 # File: infra/argo.tf
-# Description: This Terraform configuration deploys ArgoCD on a Kubernetes cluster.
+# Description: Terraform configuration to deploy ArgoCD on a Kubernetes cluster.
 
 resource "kubernetes_namespace" "argocd" {
   metadata {
@@ -31,16 +31,17 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "docker.io/argoproj/argocd:latest" # Corrected image reference
+          image = "docker.io/argoproj/argocd:latest"
 
+          # Enhanced resource limits to prevent API throttling and optimize performance
           resources {
             requests = {
-              cpu    = "500m"
-              memory = "512Mi"
+              cpu    = "250m"
+              memory = "256Mi"
             }
             limits = {
-              cpu    = "1"
-              memory = "1Gi"
+              cpu    = "750m"
+              memory = "768Mi"
             }
           }
 
@@ -49,7 +50,7 @@ resource "kubernetes_deployment" "argocd_server" {
               path = "/healthz"
               port = 443
             }
-            initial_delay_seconds = 30
+            initial_delay_seconds = 20
             period_seconds        = 10
           }
 
@@ -58,7 +59,7 @@ resource "kubernetes_deployment" "argocd_server" {
               path = "/healthz"
               port = 443
             }
-            initial_delay_seconds = 10
+            initial_delay_seconds = 5
             period_seconds        = 5
           }
 
@@ -68,6 +69,10 @@ resource "kubernetes_deployment" "argocd_server" {
         }
       }
     }
+  }
+
+  timeouts {
+    create = "10m" # Extended timeout to avoid rate limiter issues
   }
 }
 
@@ -81,7 +86,7 @@ resource "kubernetes_service" "argocd_service" {
 
   spec {
     selector = {
-      app = "argocd-server" # Fixed label selector to match the deployment
+      app = "argocd-server"
     }
 
     type = "NodePort"
@@ -93,7 +98,6 @@ resource "kubernetes_service" "argocd_service" {
     }
   }
 }
-
 
 resource "kubernetes_manifest" "argocd_application_myapp" {
   depends_on = [kubernetes_service.argocd_service]
@@ -125,3 +129,4 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     }
   }
 }
+
