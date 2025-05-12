@@ -16,7 +16,7 @@ resource "kubernetes_deployment" "argocd_server" {
   }
 
   spec {
-    replicas = 1
+    replicas = 2
     selector {
       match_labels = {
         app = "argocd-server"
