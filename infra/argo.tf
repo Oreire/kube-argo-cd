@@ -31,9 +31,8 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "argoproj/argocd:v3.0.0"  # Corrected image reference
-          image_pull_policy = "IfNotPresent"
-
+          image = "rapidfort/argocd:latest"  # Corrected image reference
+          
           resources {
             requests = {
               cpu    = "500m"

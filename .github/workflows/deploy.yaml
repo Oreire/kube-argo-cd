@@ -13,14 +13,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Initialize Terraform Configuration
+        run: |
+          cd infra
+          terraform init
+          echo "Initializing Terraform configuration..."
+                
+      - name: Validate Terraform Configurations
+        run: |
+          cd infra
+          terraform validate
+          echo "Validating Terraform configuration..."
+      
+      - name: Format Terraform Configurations
+        run: |
+          cd infra
+          terraform fmt -check
+          echo "Checking Terraform format..."
+      
+      - name: Plan Terraform Changes
+        run: |
+          cd infra
+          terraform plan -out=ArgoCD-Plan
+          echo "Planning Terraform changes..."
+
       - name: Apply Terraform Configuration
         run: |
          cd infra
-          terraform init
-          terraform validate
-          terraform fmt -check
-          terraform plan -out=ArgoCD-Plan
-          terraform apply -auto-approve
+         terraform apply -auto-approve
           #terraform destroy -auto-approve
 
       - name: Verify Kubernetes Deployments
