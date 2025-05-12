@@ -67,6 +67,7 @@ jobs:
           echo "Port forwarding processes cleaned up."
 
 
-
+# ArgoCD Image
+docker.io/argoproj/argocd:latest
 
 
