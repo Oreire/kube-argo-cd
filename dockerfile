@@ -1,5 +1,5 @@
 # Use a stable Ubuntu version as base
-FROM ubuntu:22.04
+FROM  ubuntu:22.04
 
 # Switch to root user for package installations
 USER root
