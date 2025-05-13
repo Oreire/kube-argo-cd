@@ -1,6 +1,5 @@
-
 ---
-# 4️⃣ ArgoCD Application Configuration
+# 5️⃣ ArgoCD Application Configuration
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -9,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://github.com/Oreire/kube-argo-cd.git"  # ✅ Ensure this is the correct repo
+    repoURL: "https://github.com/Oreire/kube-argo-cd.git"  # ✅ Ensure correct repo
     path: deploy
     targetRevision: "main"
   destination:
@@ -20,4 +19,5 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true  # ✅ Automatically create namespace if it doesn't exist
+      - CreateNamespace=true  # ✅ Ensure namespace creation if needed
+      - ApplyOutOfSyncOnly=true  # ✅ Only apply out-of-sync resources
