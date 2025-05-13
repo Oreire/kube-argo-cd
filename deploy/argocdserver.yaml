@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: argocd-server
-          image: quay.io/argoproj/argocd:v2.7.6  # ✅ Use the latest stable version
+          image: bitnami/argo-cd:latest  # ✅ Use the latest stable version
           ports:
             - containerPort: 8080
           resources:
