@@ -37,11 +37,11 @@ jobs:
           kubectl apply -f myapp.yaml
           echo "Application deployed successfully."
 
-      - name: Wait for MyApp Deployment to Be Ready
-        run: |
-          kubectl rollout status deployment/mywebapp -n default --timeout=120s
-          kubectl wait --for=condition=Ready pod -l app=mywebapp -n default --timeout=120s
-          echo "MyApp deployment is ready."
+      #- name: Wait for MyApp Deployment to Be Ready
+       # run: |
+        #  kubectl rollout status deployment/mywebapp -n default --timeout=120s
+         # kubectl wait --for=condition=Ready pod -l app=mywebapp -n default --timeout=120s
+          #echo "MyApp deployment is ready."
 
       - name: Start Port Forwarding for ArgoCD & MyApp
         run: |
