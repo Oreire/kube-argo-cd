@@ -5,7 +5,7 @@ metadata:
   name: argocd
 
 ---
-# 2️⃣ ArgoCD Deployment
+# 2️⃣ ArgoCD Server Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: argocd-server
-          image: bitnami/argo-cd:latest  # ✅ Use the latest stable version
+          image: quay.io/argoproj/argocd:v2.7.6  # ✅ Use the official ArgoCD image
           ports:
             - containerPort: 8080
           resources:
@@ -52,4 +52,3 @@ spec:
       port: 80
       targetPort: 8080
       nodePort: 31080  # ✅ Accessible via http://localhost:31080
-

@@ -1,17 +1,17 @@
-# MyApp Deployment
+
+# 5️⃣ MyApp Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creatingTimestamp: null
   name: mywebapp
   namespace: default
   labels:
     app: myapp
 spec:
-  replicas: 2  # Adjust as needed
+  replicas: 2
   selector:
     matchLabels:
-      app: myapp 
+      app: myapp
   template:
     metadata:
       labels:
@@ -22,39 +22,36 @@ spec:
           image: ghs-nginx-app42  # Change to your actual registry
           ports:
             - containerPort: 80
-          resources: 
+          resources:
             requests:
               cpu: "250m"
               memory: "256Mi"
             limits:
               cpu: "500m"
               memory: "512Mi"
-          # livenessProbe:
-          #   httpGet:
-          #     path: "/health"  # Ensure this exists in MyApp
-          #     port: 80
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 5
-          # readinessProbe:
-          #   httpGet:
-          #     path: "/health"
-          #     port: 80
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: "/health"  # Ensure this exists in MyApp
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: "/health"
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
 
 ---
-# MyApp Service
+# 6️⃣ MyApp Service Exposure
 apiVersion: v1
 kind: Service
 metadata:
-  creatingTimestamp: null
-  labels:
-    app: myapp
   name: myapp-service
   namespace: default
 spec:
   selector:
-    app: myapp  # ✅ Matches Deployment
+    app: myapp
   type: NodePort
   ports:
     - protocol: TCP
