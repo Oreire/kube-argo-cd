@@ -19,7 +19,7 @@ jobs:
           kubectl get nodes
           echo "Confirmed Kubernetes context is Docker Desktop."
 
-      - name: Apply ArgoCD Manifest from Local File
+      - name: Apply ArgoCD Service Manifest from Local File
         run: |
           cd deploy
           kubectl apply -f argocdserver.yaml
