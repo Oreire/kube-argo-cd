@@ -41,7 +41,7 @@ jobs:
         run: |
           cd deploy
           nohup kubectl port-forward svc/argocd-service 8000:80 -n argocd &
-          nohup kubectl port-forward svc/myapp-service 31333:80 -n default &
+          kubectl port-forward svc/myapp-service 31444:80 -n default &
           sleep 10
           echo "Local Port Forwarding Setup: ArgoCD on http://localhost:8000 | MyApp on http://localhost:31333"
 

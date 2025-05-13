@@ -1,19 +1,44 @@
+# ArgoCD Namespace Manifest
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+
+---
+# ArgoCD Application Manifest
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: myapp
-  namespace: default
+  name: myapp  # ✅ Ensure ArgoCD tracks the correct app
+  namespace: argocd
 spec:
   project: default
   source:
-    repoURL: "https://github.com/YourRepo/kubernetes-config.git"
+    repoURL: "https://github.com/Oreire/kube-argo-cd.git" # ✅ Ensure this is the correct repo
     path: "deploy"
     targetRevision: "main"
   destination:
-    namespace: default
-    server: "https://kubernetes.default.svc"
+    namespace: default  # ✅ Matches the MyApp deployment namespace
+    server: "https://kubernetes.default.svc"  # ✅ Verify Kubernetes API URL
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+
+---
+# Service to Expose MyApp
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: default
+spec:
+  selector:
+    app: myapp  # ✅ Matches MyApp deployment label
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30122  # ✅ Ensured valid and unique NodePort
 

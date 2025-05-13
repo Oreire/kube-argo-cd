@@ -1,3 +1,4 @@
+# MyApp Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,7 +30,7 @@ spec:
               memory: "512Mi"
           # livenessProbe:
           #   httpGet:
-          #     path: "/health"
+          #     path: "/health"  # Ensure this exists in MyApp
           #     port: 80
           #   initialDelaySeconds: 10
           #   periodSeconds: 5
@@ -41,6 +42,7 @@ spec:
           #   periodSeconds: 5
 
 ---
+# MyApp Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -48,11 +50,11 @@ metadata:
   namespace: default
 spec:
   selector:
-    app: myapp
+    app: myapp  # ✅ Matches Deployment
   type: NodePort
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30080  # Accessible via http://localhost:30080
+      nodePort: 30122  # ✅ Ensured valid NodePort
 
