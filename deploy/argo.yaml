@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: argocd-server
-          image: bitnami/argo-cd:2.6.7  # Specify a stable version
+          image: bitnami/argo-cd@sha256:f71bd94f4930cb12dea1d8bf158a3dd1231d395bb9ece998dbda3e577f6e1c04  # Specify a stable version
           ports:
             - containerPort: 443
           resources:
