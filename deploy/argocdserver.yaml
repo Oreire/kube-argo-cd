@@ -1,11 +1,4 @@
-# # 1️⃣ Create ArgoCD Namespace
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: argocd
-
----
-# 2️⃣ Install ArgoCD Using Kustomization
+# Install ArgoCD Using Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -13,7 +6,7 @@ resources:
 namespace: argocd
 
 ---
-# 3️⃣ ArgoCD Server Deployment
+# ArgoCD Server Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,18 +16,17 @@ metadata:
     app: argocd-server
 spec:
   replicas: 2  # ✅ Increased replicas for high availability
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
   selector:
     matchLabels:
-      app:argocd-server
+      app: argocd-server  # ✅ Matches service selector
+  strategy:
+    type: RollingUpdate  # ✅ Ensures zero downtime
   template:
     metadata:
       labels:
         app: argocd-server
     spec:
+      restartPolicy: Always  # ✅ Explicit restart policy
       containers:
         - name: argocd-server
           image: quay.io/argoproj/argocd:v2.8.0  # ✅ Official ArgoCD image
@@ -48,12 +40,14 @@ spec:
               cpu: "500m"
               memory: "1Gi"
 
+
+
 ---
-# 4️⃣ Expose ArgoCD UI via NodePort
+# Expose ArgoCD UI via NodePort
 apiVersion: v1
 kind: Service
 metadata:
-  name: argocd-server-service
+  name: argocd-service
   namespace: argocd
 spec:
   selector:
@@ -63,5 +57,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8080
-      nodePort: 31177  # ✅ Accessible via http://localhost:31080
+      nodePort: 31222  # ✅ Ensured valid port for UI access
 

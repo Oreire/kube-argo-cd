@@ -1,5 +1,5 @@
 ---
-# 5️⃣ ArgoCD Application Configuration
+# ArgoCD Application Configuration
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -20,4 +20,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true  # ✅ Ensure namespace creation if needed
-      - ApplyOutOfSyncOnly=true  # ✅ Only apply out-of-sync resources
+      
