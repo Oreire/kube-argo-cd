@@ -54,9 +54,9 @@ jobs:
           sleep 10
           echo "Local Port Forwarding Setup: ArgoCD on http://localhost:8080 | MyApp on http://localhost:8081"
 
-      - name: Cleanup
-        run: |
-          cd deploy
-          Get-Process | Where-Object { $_.ProcessName -match "kubectl" } | Stop-Process -Force
-          echo "Port forwarding processes cleaned up."
+     # - name: Cleanup
+      #  run: |
+       #   cd deploy
+        #  Get-Process | Where-Object { $_.ProcessName -match "kubectl" } | Stop-Process -Force
+         # echo "Port forwarding processes cleaned up."
 
