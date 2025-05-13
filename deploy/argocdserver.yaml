@@ -1,8 +1,8 @@
-# 1️⃣ Create ArgoCD Namespace
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: argocd
+# # 1️⃣ Create ArgoCD Namespace
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: argocd
 
 ---
 # 2️⃣ Install ArgoCD Using Kustomization
