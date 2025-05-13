@@ -2,7 +2,15 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: myapp
-  namespace: argocd
+  namespace: default
+  labels:
+    app: myapp
+    app.kubernetes.io/instance: myapp
+    app.kubernetes.io/managed-by: argocd
+    app.kubernetes.io/part-of: myapp
+    app.kubernetes.io/version: "1.0.0"
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: "Prune=true"
 spec:
   project: default
   source:

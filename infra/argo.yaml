@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-server
+  namespace: argocd
+  labels:
+    app: argocd-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argocd-server
+  template:
+    metadata:
+      labels:
+        app: argocd-server
+    spec:
+      containers:
+        - name: argocd-server
+          image: bitnami/argo-cd:latest  # Using stable image tag instead of sha256 reference
+          ports:
+            - containerPort: 80  # Using HTTP instead of HTTPS
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          command: ["/opt/bitnami/argocd-server"]  # Corrected entrypoint
+          args: ["--insecure"]
+          livenessProbe:
+            httpGet:
+              path: "/healthz"
+              port: 80  # Adjusted to use port 80
+            initialDelaySeconds: 30  # Increased delay for stability
+            periodSeconds: 10
+            failureThreshold: 5  # More retries before marking failure
+          readinessProbe:
+            httpGet:
+              path: "/healthz"
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 5
+          env:
+            - name: ARGOCD_OPTS
+              value: "--insecure"
+      volumes: [] # Removed unnecessary volume definition
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-service
+  namespace: argocd
+spec:
+  selector:
+    app: argocd-server
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 31444  # Accessible via http://localhost:30080
+

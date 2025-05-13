@@ -19,11 +19,11 @@ jobs:
           kubectl get nodes
           echo "Confirmed Kubernetes context is Docker Desktop."
 
-      - name: Apply ArgoCD Manifest on Local Cluster
-        run: |
-          cd deploy
-          kubectl apply -f argo.yaml
-          echo "ArgoCD installed successfully."
+    #   - name: Apply ArgoCD Manifest on Local Cluster
+    #     run: |
+    #       cd deploy
+    #       kubectl apply -f argo.yaml
+    #       echo "ArgoCD installed successfully."
 
       - name: Apply ArgoCD Application Manifest on Local Cluster
         run: |
