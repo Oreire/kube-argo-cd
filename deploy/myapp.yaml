@@ -56,5 +56,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30122  # ✅ Ensured valid NodePort
+      nodePort: 30888  # ✅ Ensured valid NodePort
 

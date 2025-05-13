@@ -30,7 +30,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myapp-service
+  name: argocd-service
   namespace: argocd
 spec:
   selector:
@@ -40,5 +40,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30111  # ✅ Ensured valid and unique NodePort
+      nodePort: 30999  # ✅ Ensured valid and unique NodePort
 
