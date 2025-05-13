@@ -28,7 +28,7 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "localhost:5000/bitnami/argo-cd" # bitnami/argo-cd:latest
+          image = "bitnami/argo-cd:latest" # bitnami/argo-cd:latest
 
           resources {
             requests = {

@@ -72,73 +72,17 @@ docker.io/argoproj/argocd:latest
 image = "argoproj/argocd:v2.9.0"
 
 Project
-This project sets up a simple containerized app, ensuring it's tracked by ArgoCD.The Project uses terraform for the provisioning of the necessary infrstructure namely the **Kubernetes Deployment and Service**, configuration for deploying an application and linking it to **ArgoCD** for GitOps tracking.
+This project sets up a simple containerized app, ensuring it's tracked by ArgoCD.The Project uses terraform for the provisioning of the necessary infrastructure via the following steps:
 
-### **1️⃣ Define the Application Deployment**
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: myapp
-  namespace: default
-  labels:
-    app: myapp
-spec:
-  replicas: 2  # Adjust as needed
-  selector:
-    matchLabels:
-      app: myapp
-  template:
-    metadata:
-      labels:
-        app: myapp
-    spec:
-      containers:
-        - name: myapp-container
-          image: myregistry.com/myapp:v1.0.0  # Change to your actual registry
-          ports:
-            - containerPort: 80
-          resources:
-            requests:
-              cpu: "250m"
-              memory: "256Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
-          livenessProbe:
-            httpGet:
-              path: "/health"
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: "/health"
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
-```
+## Step 1: 
 
-### **2️⃣ Define the Application Service**
-This exposes the application via a **NodePort**, making it accessible.
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: myapp-service
-  namespace: default
-spec:
-  selector:
-    app: myapp
-  type: NodePort
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30080  # Accessible via http://localhost:30080
-```
+## Define the Application Deployment**
 
-### **3️⃣ Create the ArgoCD Application Manifest**
+## Define the Application Service**
+
+## Define ArgoCD Deploymnet and Service
+
+## Create the ArgoCD Application Manifest**
 This tells **ArgoCD** to track and sync the app from a Git repository:
 ```yaml
 apiVersion: argoproj.io/v1alpha1

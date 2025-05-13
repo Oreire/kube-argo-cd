@@ -1,0 +1,62 @@
+name: Deploy ArgoCD & MyApp on Local Kubernetes (Docker Desktop)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Windows, X64]  # Runs on your local machine
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Verify Kubernetes Context
+        run: |
+          kubectl config current-context
+          kubectl get nodes
+          echo "Confirmed Kubernetes context is Docker Desktop."
+
+      - name: Apply ArgoCD Manifest on Local Cluster
+        run: |
+          cd deploy
+          kubectl apply -f argo.yaml
+          echo "ArgoCD installed successfully."
+
+      - name: Apply ArgoCD Application Manifest on Local Cluster
+        run: |
+          cd deploy
+          kubectl apply -f argoapp.yaml
+          echo "ArgoCD installed successfully."
+
+      - name: Apply MyApp Manifest on Local Cluster
+        run: |
+          cd deploy
+          kubectl apply -f myapp.yaml
+          echo "Application deployed successfully."
+
+      - name: Verify Deployment
+        run: |
+          cd deploy
+          kubectl get pods -n argocd
+          kubectl get services -n argocd
+          kubectl get pods -n default
+          kubectl get services -n default
+          echo "Kubernetes resources verified."
+
+      - name: Start Port Forwarding for ArgoCD & MyApp
+        run: |
+          cd deploy
+          nohup kubectl port-forward svc/argocd-service 8080:443 -n argocd &
+          nohup kubectl port-forward svc/myapp-service 8081:80 -n default &
+          sleep 10
+          echo "Local Port Forwarding Setup: ArgoCD on http://localhost:8080 | MyApp on http://localhost:8081"
+
+      - name: Cleanup
+        run: |
+          cd deploy
+          pkill -f "kubectl port-forward"
+          echo "Port forwarding processes cleaned up."
+
