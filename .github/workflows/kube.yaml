@@ -24,6 +24,12 @@ jobs:
           cd deploy
           kubectl apply -f argoapp.yaml
           echo "ArgoCD installed successfully."
+          
+      - name: Apply ArgoCD Manifest from Local File
+        run: |
+          cd deploy
+          kubectl apply -f argocdserver.yaml
+          echo "ArgoCD server manifest applied successfully."
 
       - name: Apply MyApp Manifest on Local Cluster
         run: |
