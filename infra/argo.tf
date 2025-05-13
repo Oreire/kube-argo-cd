@@ -31,7 +31,7 @@ resource "kubernetes_deployment" "argocd_server" {
       spec {
         container {
           name  = "argocd-server"
-          image = "docker.io/argoproj/argocd:latest"
+          image = "argoproj/argocd:v2.10.0"
 
           # Enhanced resource limits to prevent API throttling and optimize performance
           resources {
