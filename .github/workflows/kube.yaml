@@ -19,12 +19,6 @@ jobs:
           kubectl get nodes
           echo "Confirmed Kubernetes context is Docker Desktop."
 
-    #   - name: Apply ArgoCD Manifest on Local Cluster
-    #     run: |
-    #       cd deploy
-    #       kubectl apply -f argo.yaml
-    #       echo "ArgoCD installed successfully."
-
       - name: Apply ArgoCD Application Manifest on Local Cluster
         run: |
           cd deploy
@@ -37,26 +31,29 @@ jobs:
           kubectl apply -f myapp.yaml
           echo "Application deployed successfully."
 
-      - name: Verify Deployment
+      - name: Wait for ArgoCD Deployment to Be Ready
         run: |
-          cd deploy
-          kubectl get pods -n argocd
-          kubectl get services -n argocd
-          kubectl get pods -n default
-          kubectl get services -n default
-          echo "Kubernetes resources verified."
+          kubectl rollout status deployment/argocd-server -n argocd --timeout=120s
+          kubectl wait --for=condition=Ready pod -l app=argocd-server -n argocd --timeout=120s
+          echo "ArgoCD deployment is ready."
+
+      - name: Wait for MyApp Deployment to Be Ready
+        run: |
+          kubectl rollout status deployment/myapp -n default --timeout=120s
+          kubectl wait --for=condition=Ready pod -l app=myapp -n default --timeout=120s
+          echo "MyApp deployment is ready."
 
       - name: Start Port Forwarding for ArgoCD & MyApp
         run: |
           cd deploy
-          nohup kubectl port-forward svc/argocd-service 8000:443 -n argocd &
+          nohup kubectl port-forward svc/argocd-service 8000:80 -n argocd &
           nohup kubectl port-forward svc/myapp-service 31333:80 -n default &
           sleep 10
           echo "Local Port Forwarding Setup: ArgoCD on http://localhost:8000 | MyApp on http://localhost:31333"
 
-     # - name: Cleanup
-      #  run: |
-       #   cd deploy
-        #  Get-Process | Where-Object { $_.ProcessName -match "kubectl" } | Stop-Process -Force
-         # echo "Port forwarding processes cleaned up."
+      - name: Cleanup
+        run: |
+          cd deploy
+          Get-Process | Where-Object { $_.ProcessName -match "kubectl" } | Stop-Process -Force
+          echo "Port forwarding processes cleaned up."
 
