@@ -119,33 +119,3 @@ kubectl get applications -n argocd
 
 This setup ensures **ArgoCD tracks your app**, automates deployment updates, and maintains GitOps integrity. 🚀 Let me know if you need refinements!
 
-updated manifest for argocd deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: argocd-server
-  namespace: argocd
-  labels:
-    app: argocd-server
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: argocd-server
-  template:
-    metadata:
-      labels:
-        app: argocd-server
-    spec:
-      containers:
-        - name: argocd-server
-          image: bitnami/argo-cd@sha256:f71bd94f4930cb12dea1d8bf158a3dd1231d395bb9ece998dbda3e577f6e1c04
-          ports:
-            - containerPort: 443
-          resources:
-            requests:
-              cpu: "250m"
-              memory: "256Mi"
-            limits:
-              cpu: "750m"
-              memory: "768Mi"
