@@ -1,6 +1,3 @@
-# File: infra/argo.tf
-# Description: Terraform configuration to deploy ArgoCD on a Kubernetes cluster.
-
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"
@@ -16,7 +13,7 @@ resource "kubernetes_deployment" "argocd_server" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
     selector {
       match_labels = {
         app = "argocd-server"
@@ -33,7 +30,6 @@ resource "kubernetes_deployment" "argocd_server" {
           name  = "argocd-server"
           image = "argoproj/argocd:v2.10.0"
 
-          # Enhanced resource limits to prevent API throttling and optimize performance
           resources {
             requests = {
               cpu    = "250m"
@@ -50,8 +46,8 @@ resource "kubernetes_deployment" "argocd_server" {
               path = "/healthz"
               port = 443
             }
-            initial_delay_seconds = 20
-            period_seconds        = 10
+            initial_delay_seconds = 10
+            period_seconds        = 5
           }
 
           readiness_probe {
@@ -59,8 +55,8 @@ resource "kubernetes_deployment" "argocd_server" {
               path = "/healthz"
               port = 443
             }
-            initial_delay_seconds = 5
-            period_seconds        = 5
+            initial_delay_seconds = 30
+            period_seconds        = 10
           }
 
           port {
@@ -72,7 +68,7 @@ resource "kubernetes_deployment" "argocd_server" {
   }
 
   timeouts {
-    create = "10m" # Extended timeout to avoid rate limiter issues
+    create = "10m"
   }
 }
 
@@ -94,7 +90,7 @@ resource "kubernetes_service" "argocd_service" {
     port {
       port        = 443
       target_port = 443
-      node_port   = 30443 # Accessible via http://localhost:30443
+      node_port   = 30443
     }
   }
 }
@@ -129,4 +125,3 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     }
   }
 }
-
