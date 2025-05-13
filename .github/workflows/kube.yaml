@@ -57,6 +57,6 @@ jobs:
       - name: Cleanup
         run: |
           cd deploy
-          pkill -f "kubectl port-forward"
+          Get-Process | Where-Object { $_.ProcessName -match "kubectl" } | Stop-Process -Force
           echo "Port forwarding processes cleaned up."
 
