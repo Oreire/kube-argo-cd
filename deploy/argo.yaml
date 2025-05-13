@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: argocd-server
-          image: bitnami/argo-cd:latest  # Specify a stable version
+          image: bitnami/argo-cd:2.6.7  # Specify a stable version
           ports:
             - containerPort: 443
           resources:
@@ -60,4 +60,3 @@ spec:
     - port: 443
       targetPort: 443
       nodePort: 30443  # Accessible via http://localhost:30443
-
