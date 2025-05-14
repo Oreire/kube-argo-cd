@@ -13,7 +13,7 @@ spec:
     targetRevision: "main"
   destination:
     namespace: default  # ✅ Matches MyApp deployment
-    server: "https://127.0.0.1:63010"  # ✅ Verify Kubernetes API URL
+    server: "https://kubernetes.default.svc"  #"https://127.0.0.1:63010"  # ✅ Verify Kubernetes API URL
   syncPolicy:
     automated:
       prune: true

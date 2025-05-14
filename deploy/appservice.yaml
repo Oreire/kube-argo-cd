@@ -1,0 +1,16 @@
+---
+# MyApp Service Exposure
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: default
+spec:
+  selector:
+    app: myapp
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30002  # ✅ Ensured valid NodePort
