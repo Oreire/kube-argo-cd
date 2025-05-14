@@ -4,21 +4,22 @@ kind: Service
 metadata:
   name: argocd-server
   namespace: argocd
-  labels:
-    app: argocd-server
-    
 spec:
   selector:
     app: argocd-server
   type: NodePort
   ports:
-    - protocol: TCP
-      port: 8080  # ✅ External service port
-      targetPort: 8080  # ✅ Matches ArgoCD container port
-      nodePort: 30007  # ✅ NodePort for browser access
+    - name: argocd-ui   # ✅ Name for the UI port
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30007
 
-    - protocol: TCP
-      port: 8083  # ✅ Expose metrics endpoint if needed
-      targetPort: 8083  # ✅ Matches ArgoCD metrics container port
-      nodePort: 30008  # ✅ NodePort for metrics access (optional)
+    - name: argocd-metrics  # ✅ Name for the metrics port
+      protocol: TCP
+      port: 8083
+      targetPort: 8083
+      nodePort: 30008
+
+
 
