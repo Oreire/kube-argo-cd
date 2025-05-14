@@ -22,7 +22,7 @@ jobs:
       - name: Apply ArgoCD Service Manifest from Local File
         run: |
           cd deploy
-          kubectl apply -f argocdserver.yaml
+          kubectl apply -f argoservice.yaml
           echo "ArgoCD server manifest applied successfully."
 
       - name: Apply ArgoCD Application Manifest on Local Cluster
@@ -46,7 +46,7 @@ jobs:
       - name: Start Port Forwarding for ArgoCD & MyApp
         run: |
           cd deploy
-          kubectl port-forward svc/argocd-service 30004:80 -n argocd &
+          kubectl port-forward svc/argocd-server 30007:8080 -n argocd &
           kubectl port-forward svc/myapp-service 30002:80 -n default &
           sleep 60
           echo "Local Port Forwarding Setup: ArgoCD on http://localhost:30004 | MyApp on http://localhost:30002"

@@ -119,3 +119,4 @@ kubectl get applications -n argocd
 
 This setup ensures **ArgoCD tracks your app**, automates deployment updates, and maintains GitOps integrity. 🚀 Let me know if you need refinements!
 
+quay.io/argoproj/argocd:v3.0.0
