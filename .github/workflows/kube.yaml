@@ -47,9 +47,9 @@ jobs:
         run: |
           cd deploy
           kubectl port-forward svc/argocd-server 30007:8080 -n argocd &
-          kubectl port-forward svc/myapp-service 30002:80 -n default &
+          kubectl port-forward svc/myapp-service 30006:80 -n default &
           sleep 60
-          echo "Local Port Forwarding Setup: ArgoCD on http://localhost:30004 | MyApp on http://localhost:30002"
+          echo "Local Port Forwarding Setup: ArgoCD on http://localhost:30008 | MyApp on http://localhost:30006"
 
       - name: Cleanup
         run: |

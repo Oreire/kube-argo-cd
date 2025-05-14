@@ -1,4 +1,5 @@
 # This YAML file contains the configuration for deploying ArgoCD Service on a Kubernetes cluster.
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,17 +10,16 @@ spec:
     app: argocd-server
   type: NodePort
   ports:
-    - name: argocd-ui   # ✅ Name for the UI port
-      protocol: TCP
-      port: 8080
-      targetPort: 8080
-      nodePort: 30007
+    -  protocol: TCP
+       port: 8080
+       targetPort: 8080
+       nodePort: 30007
 
-    - name: argocd-metrics  # ✅ Name for the metrics port
-      protocol: TCP
-      port: 8083
-      targetPort: 8083
-      nodePort: 30008
+    # - name: argocd-metrics  # ✅ Name for the metrics port
+    #   protocol: TCP
+    #   port: 8083
+    #   targetPort: 8083
+    #   nodePort: 30008
 
 
 
