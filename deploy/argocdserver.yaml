@@ -16,7 +16,7 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 443
-      nodePort: 30003  # ✅ Accessible via http://localhost:30003
+      nodePort: 30004  # ✅ Accessible via http://localhost:30003
 
 
 
