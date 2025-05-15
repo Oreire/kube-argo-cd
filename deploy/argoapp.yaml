@@ -20,4 +20,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true  # ✅ Ensure namespace creation if needed
-      
+        
