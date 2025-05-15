@@ -53,14 +53,14 @@ resource "kubernetes_deployment" "argocd_server" {
           readiness_probe {
             http_get {
               path = "/healthz"
-              port = 443
+              port = 8080
             }
             initial_delay_seconds = 30
             period_seconds        = 10
           }
 
           port {
-            container_port = 443
+            container_port = 8080
           }
         }
       }
@@ -88,8 +88,10 @@ resource "kubernetes_service" "argocd_service" {
     type = "NodePort"
 
     port {
-      port        = 443
-      target_port = 443
+      port        = 8080
+      target_port = 8080  
+      protocol    = "TCP"
+      name        = "http"
       node_port   = 30443
     }
   }
