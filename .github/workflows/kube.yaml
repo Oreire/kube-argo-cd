@@ -42,7 +42,32 @@ jobs:
           cd deploy 
           kubectl apply -f appservice.yaml
           echo "MyApp service manifest applied successfully."
+      - name: Wait for MyApp Deployment to be Ready
+        run: |
+          cd deploy
+          kubectl rollout status deployment/mywebapp -n default
+          echo "MyApp deployment is ready."
           
+      - name: Verify MyApp Deployment
+        run: |
+          cd deploy
+          kubectl get pods -n default
+          kubectl get svc -n default
+          echo "MyApp deployment verified."
+
+      - name: Verify ArgoCD Application
+        run: |
+          cd deploy
+          kubectl get applications -n argocd
+          echo "ArgoCD application verified."
+
+      - name: Verify ArgoCD Server
+        run: |
+          cd deploy
+          kubectl get pods -n argocd
+          kubectl get svc -n argocd
+          echo "ArgoCD server verified."
+
       - name: Start Port Forwarding for ArgoCD & MyApp
         run: |
           cd deploy
