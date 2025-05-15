@@ -6,21 +6,20 @@ metadata:
   name: argocd-server
   namespace: argocd
 spec:
+  type: NodePort
   selector:
     app: argocd-server
-  type: NodePort
   ports:
-    - Name: argocd-ui  # ✅ Name for the UI port
-      protocol: TCP
+    - nodePort: 30006
       port: 8080
-      targetPort: 8080
-      nodePort: 30006
-      
-    - name: argocd-metrics  # ✅ Name for the metrics port
       protocol: TCP
+      targetPort: 8080
+    - nodePort: 30008
       port: 8083
+      protocol: TCP
       targetPort: 8083
-      nodePort: 30008
+
+
 
 
 
