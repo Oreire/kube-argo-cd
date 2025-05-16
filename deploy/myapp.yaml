@@ -8,7 +8,7 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 9  # ✅ Adjusted replicas for load balancing
+  replicas: 12  # ✅ Adjusted replicas for load balancing
   selector:
     matchLabels:
       app: myapp
