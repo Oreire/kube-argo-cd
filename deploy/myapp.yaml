@@ -8,7 +8,7 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 12  # ✅ Adjusted replicas for load balancing
+  replicas: 4 # ✅ Adjusted replicas for load balancing
   selector:
     matchLabels:
       app: myapp
@@ -17,6 +17,11 @@ spec:
       labels:
         app: myapp
     spec:
+      tolerations:
+        - key: "key"
+          operator: "Equal"
+          value: "value"
+          effect: "NoSchedule"
       containers:
         - name: myapp-container
           image: ghs-nginx-app42  # ✅ Change to actual registry
