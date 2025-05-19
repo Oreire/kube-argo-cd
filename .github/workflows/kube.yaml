@@ -84,22 +84,22 @@ jobs:
       - name: Start Port Forwarding for ArgoCD & MyApp
         run: |
           cd deploy
-          kubectl port-forward svc/argocd-server 30007:8080 -n argocd &
-          kubectl port-forward svc/myapp-service 30006:80 -n default &
+          nohup kubectl port-forward svc/argocd-server 30007:8080 -n argocd &
+          nohup kubectl port-forward svc/myapp-service 30006:80 -n default &
           sleep 60
           echo "Local Port Forwarding Setup: ArgoCD on http://localhost:30008 | MyApp on http://localhost:30006"
       
       - name: Start Port Forwarding for Prometheus
         run: |
-          kubectl port-forward svc/prometheus-operated -n monitoring 9090:9090 &
+          nohup kubectl port-forward svc/prometheus-operated -n monitoring 9090:9090 > prometheus.log 2>&1 &
           sleep 60
           echo "Local Port Forwarding Setup: Prometheus on http://localhost:9090"
-      
+          
       - name: Start Port Forwarding for Grafana
         run: |
-          kubectl port-forward svc/grafana -n monitoring 3000:80 &
+          nohup kubectl port-forward svc/grafana -n monitoring 3000:80 &
           sleep 60
-          echo "Local Port Forwarding Setup: Grafana on http://localhost:30010"
+          echo "Local Port Forwarding Setup: Grafana on http://localhost:3000"
           
 
       - name: Cleanup
