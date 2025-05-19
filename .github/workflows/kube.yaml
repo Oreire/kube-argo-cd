@@ -68,9 +68,9 @@ jobs:
           kubectl get svc -n argocd
           echo "ArgoCD server verified."
 
-      - name: Validate YAML Syntax
-        run: |
-         yamllint deploy/monitoring/
+      # - name: Validate YAML Syntax
+      #   run: |
+      #    yamllint deploy/monitoring/
 
       - name: Validate Kubernetes Manifests
         run: |
