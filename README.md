@@ -9,6 +9,7 @@ By leveraging GitOps principles, ArgoCD ensures continuous state reconciliation,
 This structured approach optimizes cluster efficiency, reliability, and automation, making it highly adaptable for real-world applications. The project highlights the interdependency between ArgoCD, GitHub Actions, and Git repositories, demonstrating their collective role in deploying secure and scalable infrastructure.
 
 
+
 #  Project Overview
 
 •	**Platform:** Windows 11 with Docker Desktop Kubernetes (3-node cluster).
