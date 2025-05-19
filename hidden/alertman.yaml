@@ -1,0 +1,28 @@
+global:
+  resolve_timeout: 5m  # ✅ Ensures alerts auto-resolve after 5 minutes
+
+route:
+  receiver: "slack-alerts"
+  routes:
+    - match:
+        severity: critical
+      receiver: "email-alerts"
+
+receivers:
+  - name: "slack-alerts"
+    slack_configs:
+      - api_url: "https://hooks.slack.com/services/YOUR_SLACK_WEBHOOK"
+        channel: "#alerts"
+        username: "Prometheus-Alertmanager"
+        icon_emoji: ":warning:"
+        text: "{{ .CommonAnnotations.summary }}\n{{ .CommonAnnotations.description }}"
+
+  - name: "email-alerts"
+    email_configs:
+      - to: "lancerajayi@yahoo.com"
+        from: "alertmanager@example.com"
+        smarthost: "smtp.example.com:587"
+        auth_username: "lancerajayi@yahoo.com"
+        auth_password: "your-email-password"
+        send_resolved: true
+

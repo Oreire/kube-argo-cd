@@ -21,3 +21,46 @@ spec:
     syncOptions:
       - CreateNamespace=true  # ✅ Ensure namespace creation if needed
         
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myargocdapp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/Oreire/kube-argo-cd.git"  
+    path: deploy  # ✅ Ensures ArgoCD tracks the full 'deploy' directory
+    targetRevision: "main"
+  destination:
+    namespace: default  
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/Oreire/kube-argo-cd.git"
+    path: deploy/monitoring  # ✅ Adding monitoring stack to ArgoCD
+    targetRevision: "main"
+  destination:
+    namespace: monitoring  # ✅ Separate namespace for observability tools
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
