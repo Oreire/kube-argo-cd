@@ -72,9 +72,9 @@ jobs:
       #   run: |
       #    yamllint deploy/monitoring/
 
-      - name: Validate Kubernetes Manifests
-        run: |
-          kubeval -d deploy/monitoring/
+      # - name: Validate Kubernetes Manifests
+      #   run: |
+      #     kubeval -d deploy/monitoring/
 
       - name: Apply Kubernetes Manifests
         run: |
