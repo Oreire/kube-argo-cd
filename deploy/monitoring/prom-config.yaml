@@ -4,7 +4,7 @@ metadata:
   name: prom-config
   namespace: monitoring
 data:
-  prometheus.yaml: |
+  prom-config.yaml: |
     global:
       scrape_interval: 15s
       evaluation_interval: 30s
