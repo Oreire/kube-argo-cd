@@ -13,5 +13,5 @@ spec:
     - name: http
       port: 3000
       targetPort: 3000
-      nodePort: 30100  # ✅ Must be inside ports
+      nodePort: 30111  # ✅ Must be inside ports
 

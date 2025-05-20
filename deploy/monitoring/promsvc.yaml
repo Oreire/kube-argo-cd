@@ -1,5 +1,3 @@
----
-# create a service for prometheus
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,11 +6,12 @@ metadata:
   labels:
     app: prometheus
 spec:
+  type: NodePort
   selector:
     app: prometheus
   ports:
-    - protocol: TCP
+    - name: http
       port: 9090
       targetPort: 9090
-  type: NodePort
-  nodePort: 30003  # This is the port that will be exposed on each Node's IP address.  
+      nodePort: 30200  # ✅ Must be inside ports
+
