@@ -1,17 +1,20 @@
 ---
 # create a service for grafana
+# This YAML file defines a Kubernetes service for Grafana, which is part of the monitoring stack.
+# It specifies the service type, selector, and ports for Grafana.
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana
-  labels:
-    app: grafana
+  name: grafana-service
+  namespace: monitoring
 spec:
-  type: ClusterIP
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-      name: http
   selector:
     app: grafana
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: NodePort
+  nodePort: 30001  # This is the port that will be exposed on each Node's IP address.
+  

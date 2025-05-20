@@ -1,7 +1,7 @@
 apiVersion: v1  # ✅ Ensures correct API version for ConfigMap
 kind: ConfigMap  # ✅ Defines this as a Kubernetes ConfigMap
 metadata:
-  name: prom-config
+  name: prometheus-config
   namespace: monitoring
 data:
   prom-config.yaml: |
@@ -9,9 +9,7 @@ data:
       scrape_interval: 15s
       evaluation_interval: 30s
     scrape_configs:
-      - job_name: "mywebapp"
+      - job_name: "prometheus"
         static_configs:
           - targets: ["mywebapp-service.default.svc.cluster.local:80"]
-    # rule_files:
-    #   - "alerting-rules.yaml"
-
+      

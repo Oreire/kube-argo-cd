@@ -1,5 +1,3 @@
----
-# MyApp Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +6,7 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 6 # ✅ Adjusted replicas for load balancing
+  replicas: 6
   selector:
     matchLabels:
       app: myapp
@@ -17,14 +15,9 @@ spec:
       labels:
         app: myapp
     spec:
-      # tolerations:
-      #   - key: "key"
-      #     operator: "Equal"
-      #     value: "value"
-      #     effect: "NoSchedule"
       containers:
         - name: myapp-container
-          image: ghs-nginx-app42  # ✅ Change to actual registry
+          image: my-registry/ghs-nginx-app42:latest  # ✅ Ensure correct registry path
           ports:
             - containerPort: 80
           resources:
@@ -34,5 +27,16 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
-          
+          readinessProbe:  # ✅ Added probe to check app readiness
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:  # ✅ Added probe to check app health
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
 
