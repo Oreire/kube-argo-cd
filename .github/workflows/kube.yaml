@@ -31,7 +31,7 @@ jobs:
           kubectl apply -f argoapp.yaml
           echo "ArgoCD installed successfully."
 
-      - name: Apply MyApp Manifest on Local Cluster
+      - name: Apply MyApp Deployment Manifest on Local Cluster
         run: |
           cd deploy
           kubectl apply -f myapp.yaml
@@ -43,13 +43,7 @@ jobs:
           kubectl apply -f appservice.yaml
           echo "MyApp service manifest applied successfully."
       
-      # - name: Wait for MyApp Deployment to be Ready
-      #   run: |
-      #     cd deploy
-      #     kubectl rollout status deployment/mywebapp -n default
-      #     echo "MyApp deployment is ready."
-          
-      - name: Verify MyApp Deployment
+      - name: Verify MyApp Deployment && Services
         run: |
           cd deploy
           kubectl get pods -n default
@@ -67,20 +61,29 @@ jobs:
           cd deploy
           kubectl get pods -n argocd
           kubectl get svc -n argocd
-          echo "ArgoCD server verified."
+          echo "ArgoCD server and services verified."
 
       - name: Apply Kubernetes Manifests
         run: |
           kubectl apply -f deploy/monitoring/
           echo "Monitoring stack applied successfully."
+    
+      - name: Verify Monitoring Stacks
+        run: |
+          cd deploy/monitoring/
+          kubectl get deploy -n monitoring
+          kubectl get pods -n monitoring
+          echo "Verifying Monitoring service stack."
+          kubectl get svc -n monitoring
+          echo "ALL MONITORING STACKS VERIFIED."
       
       - name: Start Port Forwarding for ArgoCD & MyApp
         run: |
           cd deploy
-          nohup kubectl port-forward svc/argocd-server 30007:8080 -n argocd &
-          nohup kubectl port-forward svc/myapp-service 30006:80 -n default &
+          nohup kubectl port-forward svc/argocd-server 30013:8080 -n argocd &
+          nohup kubectl port-forward svc/myapp-service 30014:80 -n default &
           sleep 60
-          echo "Local Port Forwarding Setup: ArgoCD on http://localhost:30008 | MyApp on http://localhost:30006"
+          echo "Local Port Forwarding Setup: ArgoCD on http://localhost:30013 | MyApp on http://localhost:30014"
       
       - name: Start Port Forwarding for Prometheus
         run: |
