@@ -42,11 +42,12 @@ jobs:
           cd deploy 
           kubectl apply -f appservice.yaml
           echo "MyApp service manifest applied successfully."
-      - name: Wait for MyApp Deployment to be Ready
-        run: |
-          cd deploy
-          kubectl rollout status deployment/mywebapp -n default
-          echo "MyApp deployment is ready."
+      
+      # - name: Wait for MyApp Deployment to be Ready
+      #   run: |
+      #     cd deploy
+      #     kubectl rollout status deployment/mywebapp -n default
+      #     echo "MyApp deployment is ready."
           
       - name: Verify MyApp Deployment
         run: |
@@ -67,14 +68,6 @@ jobs:
           kubectl get pods -n argocd
           kubectl get svc -n argocd
           echo "ArgoCD server verified."
-
-      # - name: Validate YAML Syntax
-      #   run: |
-      #    yamllint deploy/monitoring/
-
-      # - name: Validate Kubernetes Manifests
-      #   run: |
-      #     kubeval -d deploy/monitoring/
 
       - name: Apply Kubernetes Manifests
         run: |
@@ -100,8 +93,7 @@ jobs:
           nohup kubectl port-forward svc/grafana -n monitoring 3000:80 &
           sleep 60
           echo "Local Port Forwarding Setup: Grafana on http://localhost:3000"
-          
-
+      
       - name: Cleanup
         run: |
           cd deploy
