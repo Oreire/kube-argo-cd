@@ -27,16 +27,16 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
-          readinessProbe:  # ✅ Added probe to check app readiness
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:  # ✅ Added probe to check app health
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 20
+          # readinessProbe:  # ✅ Added probe to check app readiness
+          #   httpGet:
+          #     path: /
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          # livenessProbe:  # ✅ Added probe to check app health
+          #   httpGet:
+          #     path: /
+          #     port: 80
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 20
 
