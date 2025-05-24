@@ -1,6 +1,6 @@
 resource "kubernetes_namespace" "argocd" {
   metadata {
-    name = "argocd"
+    name = "argocd-2025"
   }
 }
 
@@ -8,7 +8,7 @@ resource "kubernetes_deployment" "argocd_server" {
   depends_on = [kubernetes_namespace.argocd]
 
   metadata {
-    name      = "argocd-server"
+    name      = "argocd-server-2"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
 
@@ -16,19 +16,20 @@ resource "kubernetes_deployment" "argocd_server" {
     replicas = 1
     selector {
       match_labels = {
-        app = "argocd-server"
+        app = "argocd-server-2"
       }
     }
     template {
       metadata {
         labels = {
-          app = "argocd-server"
+          app = "argocd-server-2"
         }
       }
       spec {
         container {
-          name  = "argocd-server"
-          image = "bitnami/argo-cd:latest" # bitnami/argo-cd:latest
+          name              = "argocd-server-2"
+          image             = "docker.io/docker-hardened/argocd:latest" # Replace with the desired image
+          image_pull_policy = "IfNotPresent"
 
           resources {
             requests = {
@@ -76,7 +77,7 @@ resource "kubernetes_service" "argocd_service" {
   depends_on = [kubernetes_deployment.argocd_server]
 
   metadata {
-    name      = "argocd-service"
+    name      = "argocd-service-2025"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
 
@@ -89,10 +90,10 @@ resource "kubernetes_service" "argocd_service" {
 
     port {
       port        = 8080
-      target_port = 8080  
+      target_port = 8080
       protocol    = "TCP"
       name        = "http"
-      node_port   = 30443
+      node_port   = 30444 # Accessible via http://localhost:30444
     }
   }
 }
@@ -105,7 +106,7 @@ resource "kubernetes_manifest" "argocd_application_myapp" {
     kind       = "Application"
     metadata = {
       name      = "myapp"
-      namespace = "argocd"
+      namespace = "argocd-2025"
     }
     spec = {
       project = "default"
