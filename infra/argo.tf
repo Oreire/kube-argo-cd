@@ -83,7 +83,7 @@ resource "kubernetes_service" "argocd_service" {
 
   spec {
     selector = {
-      app = "argocd-server"
+      app = "argocd-server-2"
     }
 
     type = "NodePort"

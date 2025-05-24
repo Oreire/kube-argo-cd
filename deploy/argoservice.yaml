@@ -11,12 +11,12 @@ spec:
     app: argocd-server
   ports:
     - name: argocd-ui
-      nodePort: 30006
+      nodePort: 30116
       port: 8080
       protocol: TCP
       targetPort: 8080
     - name: argocd-metrics
-      nodePort: 30008
+      nodePort: 30118
       port: 8083
       protocol: TCP
       targetPort: 8083
