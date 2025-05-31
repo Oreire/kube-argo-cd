@@ -6,7 +6,12 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 6
+  replicas: 8  # ✅ Increased replicas for better load handling
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2  # ✅ Allows for 2 extra pods during updates
+      maxUnavailable: 1  # ✅ Ensures at least 7 pods are always available
   selector:
     matchLabels:
       app: myapp

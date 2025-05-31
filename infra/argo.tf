@@ -1,6 +1,6 @@
 resource "kubernetes_namespace" "argocd" {
   metadata {
-    name = "argocd-2025"
+    name = "argocd"
   }
 }
 
@@ -8,7 +8,7 @@ resource "kubernetes_deployment" "argocd_server" {
   depends_on = [kubernetes_namespace.argocd]
 
   metadata {
-    name      = "argocd-server-2"
+    name      = "argocd-server"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
 
@@ -16,19 +16,19 @@ resource "kubernetes_deployment" "argocd_server" {
     replicas = 1
     selector {
       match_labels = {
-        app = "argocd-server-2"
+        app = "argocd-server"
       }
     }
     template {
       metadata {
         labels = {
-          app = "argocd-server-2"
+          app = "argocd-server"
         }
       }
       spec {
         container {
-          name              = "argocd-server-2"
-          image             = "docker.io/docker-hardened/argocd:latest" # Replace with the desired image
+          name              = "argocd-server"
+          image             = "argoproj/argocd:v2.8.4" # Use the desired ArgoCD image
           image_pull_policy = "IfNotPresent"
 
           resources {
@@ -42,24 +42,6 @@ resource "kubernetes_deployment" "argocd_server" {
             }
           }
 
-          liveness_probe {
-            http_get {
-              path = "/healthz"
-              port = 443
-            }
-            initial_delay_seconds = 10
-            period_seconds        = 5
-          }
-
-          readiness_probe {
-            http_get {
-              path = "/healthz"
-              port = 8080
-            }
-            initial_delay_seconds = 30
-            period_seconds        = 10
-          }
-
           port {
             container_port = 8080
           }
@@ -68,22 +50,83 @@ resource "kubernetes_deployment" "argocd_server" {
     }
   }
 
-  timeouts {
-    create = "10m"
-  }
+  # lifecycle {
+  #   prevent_destroy = true # Prevent accidental deletion of the ArgoCD server deployment
+  # }
 }
+
+#   spec {
+#     replicas = 1
+#     selector {
+#       match_labels = {
+#         app = "argocd-server"
+#       }
+#     }
+#     template {
+#       metadata {
+#         labels = {
+#           app = "argocd-server-2"
+#         }
+#       }
+#       spec {
+#         container {
+#           name              = "argocd-server-2"
+#           image             = "docker.io/library/my-argocd:latest" # Replace with the desired image
+#           image_pull_policy = "IfNotPresent"
+
+#           resources {
+#             requests = {
+#               cpu    = "250m"
+#               memory = "256Mi"
+#             }
+#             limits = {
+#               cpu    = "750m"
+#               memory = "768Mi"
+#             }
+#           }
+
+#           liveness_probe {
+#             http_get {
+#               path = "/healthz"
+#               port = 443
+#             }
+#             initial_delay_seconds = 10
+#             period_seconds        = 5
+#           }
+
+#           readiness_probe {
+#             http_get {
+#               path = "/healthz"
+#               port = 8080
+#             }
+#             initial_delay_seconds = 30
+#             period_seconds        = 10
+#           }
+
+#           port {
+#             container_port = 8080
+#           }
+#         }
+#       }
+#     }
+#   }
+
+#   timeouts {
+#     create = "10m"
+#   }
+# }
 
 resource "kubernetes_service" "argocd_service" {
   depends_on = [kubernetes_deployment.argocd_server]
 
   metadata {
-    name      = "argocd-service-2025"
+    name      = "argocd-service"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
 
   spec {
     selector = {
-      app = "argocd-server-2"
+      app = "argocd-server"
     }
 
     type = "NodePort"

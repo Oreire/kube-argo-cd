@@ -4,11 +4,14 @@ provider "kubernetes" {
 
 resource "kubernetes_deployment" "myapp" {
   metadata {
-    name      = "myapp"
+    name      = "mywebapp-deployment"
     namespace = "default"
   }
   spec {
-    replicas = 2
+    replicas = 4
+    strategy {
+      type = "RollingUpdate"
+    }
     selector {
       match_labels = {
         app = "myapp"
@@ -35,7 +38,7 @@ resource "kubernetes_deployment" "myapp" {
 
 resource "kubernetes_service" "myapp_service" {
   metadata {
-    name      = "myapp-service"
+    name      = "mywebapp-service"
     namespace = "default"
   }
 
@@ -49,7 +52,7 @@ resource "kubernetes_service" "myapp_service" {
     port {
       port        = 80
       target_port = 80
-      node_port   = 31666 # Accessible via http://localhost:31444
+      node_port   = 31555 # Accessible via http://localhost:31555
     }
   }
 }
