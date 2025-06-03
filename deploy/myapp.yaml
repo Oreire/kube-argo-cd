@@ -6,7 +6,7 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 8  # ✅ Increased replicas for better load handling
+  replicas: 12  # ✅ Increased replicas for better load handling
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: myapp-container
-          image: ghs-nginx-app44:latest  # ✅ Ensure correct registry path
+          image: ghs-nginx-app45:latest  # ✅ Ensure correct registry path
           ports:
             - containerPort: 80
           resources:
