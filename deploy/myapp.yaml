@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: myapp-container
-          image: ghs-nginx-app42:latest  # ✅ Ensure correct registry path
+          image: ghs-nginx-app44:latest  # ✅ Ensure correct registry path
           ports:
             - containerPort: 80
           resources:
