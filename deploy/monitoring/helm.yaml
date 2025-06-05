@@ -12,29 +12,4 @@ spec:
         name: prometheus-community
         namespace: monitoring
   interval: 5m
-  values:
-    prometheus:
-      prometheusSpec:
-        retention: 15d
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              accessModes: ["ReadWriteOnce"]
-              resources:
-                requests:
-                  storage: 50Gi
-    grafana:
-      adminPassword: "admin"
-      persistence:
-        enabled: true
-        size: 10Gi
-        storageClassName: "standard"
-    alertmanager:
-      alertmanagerSpec:
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              accessModes: ["ReadWriteOnce"]
-              resources:
-                requests:
-                  storage: 10Gi
+  
