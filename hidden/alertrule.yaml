@@ -8,7 +8,7 @@ spec:
     - name: alerts
       rules:
         - alert: HighCPUUsage
-          expr: rate(node_cpu_seconds_total[5m]) > 0.8
+          expr: sum by(instance) (rate(node_cpu_seconds_total{mode!="idle"}[5m])) > 0.8
           for: 5m
           labels:
             severity: critical
@@ -26,19 +26,4 @@ spec:
             description: "Available memory dropped below 1GB for more than 5 minutes"
 
         - alert: WebAppHighLatency
-          expr: avg(rate(http_request_duration_seconds_sum[5m])) > 0.5
-          for: 2m
-          labels:
-            severity: warning
-          annotations:
-            summary: "High latency detected in mywebapp"
-            description: "Average request duration exceeded 500ms for more than 2 minutes"
-
-        - alert: WebAppErrorRate
-          expr: sum(rate(http_requests_total{status_code=~"5.."}[5m])) > 5
-          for: 2m
-          labels:
-            severity: critical
-          annotations:
-            summary: "High error rate detected in mywebapp"
-            description: "More than 5 HTTP 5xx errors per second observed over 5 minutes"
+          expr: (sum(rate(http_request_duration_seconds_sum[5m])) / sum(rate(http_request_duration_seconds_count[5m]))) > 0.5
