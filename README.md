@@ -2,12 +2,11 @@
 
 # Automated Deployment of a Containerized Web Application Using ArgoCD & GitHub Actions
 
-Overview:
-Implemented a GitOps‑driven deployment pipeline for containerized web applications using ArgoCD and GitHub Actions on a self‑hosted Windows runner. The environment was powered by Docker Desktop with a three‑node Kubernetes cluster to simulate production‑like orchestration. ArgoCD continuously reconciled cluster state with Git repositories, minimizing manual intervention, preventing configuration drift, and ensuring secure, scalable, and automated deployments.
+## Project Overview:
 
-Rigorous testing validated production relevance by leveraging taints and tolerations to assess workload placement and scheduling behavior. Scaling deployments with tolerations reinforced high availability and fault tolerance, while GitOps principles ensured declarative, auditable, and repeatable infrastructure management. This structured approach optimized cluster efficiency, reliability, and automation, demonstrating the interdependency between ArgoCD, GitHub Actions, and Git repositories in delivering secure, cloud‑native applications.
+Implemented a GitOps‑driven deployment pipeline for containerized web applications using ArgoCD and GitHub Actions on a self‑hosted Windows runner. The environment was powered by Docker Desktop with a three‑node Kubernetes cluster to simulate production‑like orchestration. ArgoCD continuously reconciled cluster state with Git repositories, minimizing manual intervention, preventing configuration drift, and ensuring secure, scalable, and automated deployments. Rigorous testing validated production relevance by leveraging taints and tolerations to assess workload placement and scheduling behavior. Scaling deployments with tolerations reinforced high availability and fault tolerance, while GitOps principles ensured declarative, auditable, and repeatable infrastructure management. This structured approach optimized cluster efficiency, reliability, and automation, demonstrating the interdependency between ArgoCD, GitHub Actions, and Git repositories in delivering secure, cloud‑native applications.
 
-Tools & Technologies
+## Tools & Technologies
 
 • Kubernetes (Docker Desktop, 3‑node cluster)
 • ArgoCD (GitOps reconciliation, declarative deployments)
@@ -15,17 +14,14 @@ Tools & Technologies
 • Docker (containerization)
 • Git (version‑controlled releases)
 
-
-
-
 The above project implemented a GitOps-driven deployment pipeline for a containerized web application, utilizing ArgoCD and GitHub Actions on a self-hosted Windows runner. The environment, powered by Docker Desktop and Kubernetes, manages a three-node cluster for efficient orchestration. 
 
 By leveraging GitOps principles, ArgoCD ensures continuous state reconciliation, minimizing manual intervention and configuration drift while maintaining security, automation, and scalability. Rigorous testing validated its relevance for production environments, focusing on taints and tolerations to assess workload placement and scheduling behavior. Scaling deployments with tolerations enabled effective testing of Kubernetes scheduler behavior and GitOps-driven deployment integrity, reinforcing high availability and fault tolerance. 
 
-This structured approach optimizes cluster efficiency, reliability, and automation, making it highly adaptable for real-world applications. The project highlights the interdependency between ArgoCD, GitHub Actions, and Git repositories, demonstrating their collective role in deploying secure and scalable infrastructure.
+This structured approach optimises cluster efficiency, reliability, and automation, making it highly adaptable for real-world applications. The project highlights the interdependency between ArgoCD, GitHub Actions, and Git repositories, demonstrating their collective role in deploying secure and scalable infrastructure.
 
 
-#  Project Overview
+#  Tools Summary
 
 •	**Platform:** Windows 11 with Docker Desktop Kubernetes (3-node cluster).
 
